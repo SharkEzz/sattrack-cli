@@ -21,39 +21,21 @@ namespace sattrack
             delete this->sgp4;
         }
 
-        double TrackingInfos::getElevation(DateTime customDt) const
+        double TrackingInfos::getElevation(DateTime customDt = DateTime::Now()) const
         {
             Eci eci = this->sgp4->FindPosition(customDt);
             return this->radToDeg(this->obs->GetLookAngle(eci).elevation);
         }
 
-        double TrackingInfos::getElevation() const
-        {
-            Eci eci = this->sgp4->FindPosition(DateTime::Now());
-            return this->radToDeg(this->obs->GetLookAngle(eci).elevation);
-        }
-
-        double TrackingInfos::getAzimuth(DateTime customDt) const
+        double TrackingInfos::getAzimuth(DateTime customDt = DateTime::Now()) const
         {
             Eci eci = this->sgp4->FindPosition(customDt);
             return this->radToDeg(this->obs->GetLookAngle(eci).azimuth);
         }
 
-        double TrackingInfos::getAzimuth() const
-        {
-            Eci eci = this->sgp4->FindPosition(DateTime::Now());
-            return this->radToDeg(this->obs->GetLookAngle(eci).azimuth);
-        }
-
-        double TrackingInfos::getAltitude(DateTime customDt) const
+        double TrackingInfos::getAltitude(DateTime customDt = DateTime::Now()) const
         {
             Eci eci = this->sgp4->FindPosition(customDt);
-            return this->radToDeg(this->obs->GetLookAngle(eci).range);
-        }
-
-        double TrackingInfos::getAltitude() const
-        {
-            Eci eci = this->sgp4->FindPosition(DateTime::Now());
             return this->radToDeg(this->obs->GetLookAngle(eci).range);
         }
 

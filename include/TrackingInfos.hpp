@@ -17,11 +17,8 @@ namespace sattrack
                 TrackingInfos(Tle *tle, Observer *obs);
                 ~TrackingInfos();
                 double getElevation(DateTime customDt) const;
-                double getElevation() const;
                 double getAzimuth(DateTime customDt) const;
-                double getAzimuth() const;
                 double getAltitude(DateTime customDt) const;
-                double getAltitude() const;
 
             private:
                 Tle *tle;
