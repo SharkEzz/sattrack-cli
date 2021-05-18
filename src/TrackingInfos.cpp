@@ -5,43 +5,39 @@
 
 namespace sattrack
 {
-    namespace sgp4
+
+    TrackingInfos::TrackingInfos(Tle *tle, Observer *obs)
     {
-        TrackingInfos::TrackingInfos(Tle *tle, Observer *obs)
-        {
-            this->tle = tle;
-            this->obs = obs;
-            this->sgp4 = new SGP4(*tle);
-        }
+        this->tle = tle;
+        this->obs = obs;
+        this->sgp4 = new SGP4(*tle);
+    }
 
-        TrackingInfos::~TrackingInfos()
-        {
-            delete this->tle;
-            delete this->obs;
-            delete this->sgp4;
-        }
+    TrackingInfos::~TrackingInfos()
+    {
+        delete this->sgp4;
+    }
 
-        double TrackingInfos::getElevation(DateTime customDt = DateTime::Now()) const
-        {
-            Eci eci = this->sgp4->FindPosition(customDt);
-            return this->radToDeg(this->obs->GetLookAngle(eci).elevation);
-        }
+    double TrackingInfos::getElevation(DateTime customDt = DateTime::Now()) const
+    {
+        Eci eci = this->sgp4->FindPosition(customDt);
+        return this->radToDeg(this->obs->GetLookAngle(eci).elevation);
+    }
 
-        double TrackingInfos::getAzimuth(DateTime customDt = DateTime::Now()) const
-        {
-            Eci eci = this->sgp4->FindPosition(customDt);
-            return this->radToDeg(this->obs->GetLookAngle(eci).azimuth);
-        }
+    double TrackingInfos::getAzimuth(DateTime customDt = DateTime::Now()) const
+    {
+        Eci eci = this->sgp4->FindPosition(customDt);
+        return this->radToDeg(this->obs->GetLookAngle(eci).azimuth);
+    }
 
-        double TrackingInfos::getAltitude(DateTime customDt = DateTime::Now()) const
-        {
-            Eci eci = this->sgp4->FindPosition(customDt);
-            return this->radToDeg(this->obs->GetLookAngle(eci).range);
-        }
+    double TrackingInfos::getAltitude(DateTime customDt = DateTime::Now()) const
+    {
+        Eci eci = this->sgp4->FindPosition(customDt);
+        return this->radToDeg(this->obs->GetLookAngle(eci).range);
+    }
 
-        double TrackingInfos::radToDeg(double rad) const
-        {
-            return rad * (180 / M_PI);
-        }
+    double TrackingInfos::radToDeg(double rad) const
+    {
+        return rad * (180 / M_PI);
     }
 }

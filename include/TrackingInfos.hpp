@@ -8,25 +8,22 @@
 
 namespace sattrack
 {
-    namespace sgp4
+    // Give the Azimuth / Elevation / Altitude of an satellite using a TLE, observer location and eventually a DateTime
+    class TrackingInfos
     {
-        // Give the Azimuth / Elevation / Altitude of an satellite using a TLE, observer location and eventually a DateTime
-        class TrackingInfos
-        {
-            public:
-                TrackingInfos(Tle *tle, Observer *obs);
-                ~TrackingInfos();
-                double getElevation(DateTime customDt) const;
-                double getAzimuth(DateTime customDt) const;
-                double getAltitude(DateTime customDt) const;
+    public:
+        TrackingInfos(Tle *tle, Observer *obs);
+        ~TrackingInfos();
+        double getElevation(DateTime customDt) const;
+        double getAzimuth(DateTime customDt) const;
+        double getAltitude(DateTime customDt) const;
 
-            private:
-                Tle *tle;
-                Observer *obs;
-                SGP4 *sgp4;
-                double radToDeg(double rad) const;
-        };
-    }
+    private:
+        Tle *tle;
+        Observer *obs;
+        SGP4 *sgp4;
+        double radToDeg(double rad) const;
+    };
 }
 
 #endif
