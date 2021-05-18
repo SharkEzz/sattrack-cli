@@ -9,6 +9,14 @@ namespace sattrack
 
         is >> json;
 
+        is.close();
+
         return json;
+    }
+
+    void JSONLoader::write(const char* path, Json::Value data)
+    {
+        std::ofstream os(path, std::fstream::trunc);
+        os.write(data.asCString(), data.asString().length());
     }
 }

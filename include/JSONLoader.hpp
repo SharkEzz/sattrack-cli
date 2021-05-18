@@ -11,6 +11,7 @@ namespace sattrack
     {
     public:
         static Json::Value load(const char* path);
+        static void write(const char* path, Json::Value data);
     };
 }
 
