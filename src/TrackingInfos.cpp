@@ -40,4 +40,9 @@ namespace sattrack
     {
         return rad * (180 / M_PI);
     }
+
+    Tle* TrackingInfos::getTle() const
+    {
+        return this->tle;
+    }
 } // namespace sattrack

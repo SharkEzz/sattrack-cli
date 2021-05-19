@@ -5,6 +5,7 @@
 #include <SGP4/CoordGeodetic.h>
 #include <SGP4/Observer.h>
 #include <SGP4/SGP4.h>
+#include <SGP4/Tle.h>
 
 namespace sattrack
 {
@@ -17,6 +18,7 @@ namespace sattrack
         double getElevation(DateTime customDt) const;
         double getAzimuth(DateTime customDt) const;
         double getAltitude(DateTime customDt) const;
+        Tle* getTle() const;
 
     private:
         Tle *tle;

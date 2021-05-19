@@ -7,6 +7,9 @@
 #include "TleLoader.hpp"
 #include "SatelliteUtils.hpp"
 #include <SGP4/Observer.h>
+#include "TrackingInfos.hpp"
+#include "CLIDisplay.hpp"
+#include <SGP4/Tle.h>
 
 using namespace sattrack;
 
@@ -47,12 +50,15 @@ int main()
         return EXIT_FAILURE;
     }
 
-    TrackingInfos infos = utils.getSatelliteInfos(&visibleSatellites.at(choice), &observer);
+    Tle selectedSatellite = visibleSatellites.at(choice);
 
-    while(true)
+    TrackingInfos infos = utils.getSatelliteInfos(&selectedSatellite, &observer);
+
+    CLIDisplay cliDisplay;
+
+    while(utils.isVisible(&selectedSatellite, &observer, 5))
     {
-        DateTime dt = DateTime::Now();
-        std::cout << infos.getAzimuth(dt) << " - " << infos.getElevation(dt) << std::endl;
+        cliDisplay.Display(&infos, DateTime::Now());
         usleep(50 * 10000);
     }
 
