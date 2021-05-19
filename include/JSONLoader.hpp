@@ -10,9 +10,9 @@ namespace sattrack
     class JSONLoader
     {
     public:
-        static Json::Value load(const char* path);
-        static void write(const char* path, Json::Value data);
+        Json::Value load(const char* path);
+        void write(const char* path, Json::Value data);
     };
-}
+} // namespace sattrack
 
 #endif

@@ -40,4 +40,4 @@ namespace sattrack
     {
         return rad * (180 / M_PI);
     }
-}
+} // namespace sattrack

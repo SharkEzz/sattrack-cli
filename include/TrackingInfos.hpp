@@ -24,6 +24,6 @@ namespace sattrack
         SGP4 *sgp4;
         double radToDeg(double rad) const;
     };
-}
+} // namespace sattrack
 
 #endif
