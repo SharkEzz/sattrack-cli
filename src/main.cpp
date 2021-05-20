@@ -1,7 +1,9 @@
 #include <iostream>
 
 #include "Database.hpp"
-#include <map>
+#include "TLEManager.hpp"
+#include <vector>
+#include <SGP4/Tle.h>
 
 using namespace sattrack;
 
@@ -11,11 +13,12 @@ int main()
     if(db.isEmpty())
         db.init();
 
-    std::vector<std::map<std::string, std::string>> res = db.query("SELECT * FROM tle");
+    TLEManager manager(&db);
+    std::vector<Tle> tles = manager.getFromDB();
 
-    for (auto &&resRow : res)
+    for (auto &&tle : tles)
     {
-        std::cout << resRow["id"] << " - " << resRow["name"] << '\n';
+        std::cout << tle.Name() << std::endl;
     }
     
     

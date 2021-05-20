@@ -1,6 +1,5 @@
 #include "Database.hpp"
 
-#include <iostream>
 #include <fstream>
 #include <exception>
 
@@ -79,7 +78,7 @@ namespace sattrack
 
         const char* initStr = "CREATE TABLE tle(" \
                                 "id INT PRIMARY KEY NOT NULL," \
-                                "name VARCHAR(24) NOT NULL," \
+                                "name VARCHAR(24) UNIQUE NOT NULL," \
                                 "line1 VARCHAR(69) NOT NULL," \
                                 "line2 VARCHAR(69) NOT NULL" \
                             ");";
