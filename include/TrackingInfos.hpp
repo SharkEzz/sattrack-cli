@@ -18,7 +18,10 @@ namespace sattrack
         double getElevation(DateTime customDt) const;
         double getAzimuth(DateTime customDt) const;
         double getAltitude(DateTime customDt) const;
-        Tle* getTle() const;
+        double getElevation() const;
+        double getAzimuth() const;
+        double getAltitude() const;
+        Tle getTle() const;
 
     private:
         Tle *tle;
