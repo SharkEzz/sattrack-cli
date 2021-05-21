@@ -29,6 +29,10 @@ namespace sattrack
 
     bool TLEManager::updateTle(const char* currentName, const char* newName, const char* line1, const char* line2) const
     {
-        // TODO
+        std::string query = "UPDATE tle SET name='" + std::string(newName) + "', line1='" + std::string(line1) + "', line2='" + std::string(line2) + "' WHERE name='" + std::string(currentName) + "';";
+
+        bool ret = this->db->exec(query.c_str());
+
+        return ret;
     }
 } // namespace sattrack
