@@ -2,6 +2,7 @@
 
 #include "Database.hpp"
 #include "TLEManager.hpp"
+#include "ObserverManager.hpp"
 #include <vector>
 #include <SGP4/Tle.h>
 
@@ -16,6 +17,11 @@ int main()
     TLEManager manager(&db);
     std::vector<Tle> tles = manager.getFromDB();
 
+    ObserverManager obsManager(&db);
+    Location location = obsManager.getFromDb();
+
+    std::cout << "lat: " << location.latitude << " longitude: " << location.longitude << std::endl;
+ 
     for (auto &&tle : tles)
     {
         std::cout << tle.Name() << std::endl;
