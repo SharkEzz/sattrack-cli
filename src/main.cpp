@@ -3,8 +3,11 @@
 #include "Database.hpp"
 #include "TLEManager.hpp"
 #include "ObserverManager.hpp"
+#include "SatelliteUtils.hpp"
+#include "TrackingInfos.hpp"
 #include <vector>
 #include <SGP4/Tle.h>
+#include <SGP4/Observer.h>
 
 using namespace sattrack;
 
@@ -18,14 +21,11 @@ int main()
     std::vector<Tle> tles = manager.getFromDB();
 
     ObserverManager obsManager(&db);
-    Location location = obsManager.getFromDb();
+    Observer location = obsManager.getFromDb();
 
-    std::cout << "lat: " << location.latitude << " longitude: " << location.longitude << std::endl;
- 
-    for (auto &&tle : tles)
-    {
-        std::cout << tle.Name() << std::endl;
-    }
+    SatelliteUtils utils;
+
+    std::cout << utils.isVisible(&tles.at(1), &location, 5) << std::endl;
     
     return EXIT_SUCCESS;
 }

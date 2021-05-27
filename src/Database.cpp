@@ -97,6 +97,7 @@ namespace sattrack
                                     "id INT PRIMARY KEY NOT NULL," \
                                     "latitude DECIMAL(10,6) NOT NULL," \
                                     "longitude DECIMAL(10,6) NOT NULL" \
+                                    "altitude DECIMAL(8,3) NOT NULL"
                                 ");";
 
         if(!this->exec(initTleTable) || !this->exec(initLocationTable))

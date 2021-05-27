@@ -11,14 +11,11 @@ namespace sattrack
         this->db = db;
     }
 
-    Location ObserverManager::getFromDb() const
+    Observer ObserverManager::getFromDb() const
     {
         std::vector<std::map<std::string, std::string>> res = this->db->query("SELECT * FROM location WHERE id = 1");
-        std::string::size_type sz;
-
-        Location location = { std::stod(res.at(0)["latitude"], &sz), std::stod(res.at(0)["longitude"], &sz) };
-
-        return location;
+        
+        return Observer(std::stod(res.at(0)["latitude"]), std::stod(res.at(0)["longitude"]), std::stod(res.at(0)["altitude"]));
     }
 
     bool ObserverManager::setLocation(const double latitude, const double longitude) const

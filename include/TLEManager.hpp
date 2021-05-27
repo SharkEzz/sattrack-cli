@@ -4,6 +4,7 @@
 #include "Database.hpp"
 #include <vector>
 #include <SGP4/Tle.h>
+#include <SGP4/Observer.h>
 
 namespace sattrack
 {

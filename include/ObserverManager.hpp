@@ -2,6 +2,7 @@
 #define OBSERVERMANAGER_HPP
 
 #include "Database.hpp"
+#include <SGP4/Observer.h>
 
 namespace sattrack
 {
@@ -15,7 +16,7 @@ namespace sattrack
     {
     public:
         ObserverManager(Database* db);
-        Location getFromDb() const;
+        Observer getFromDb() const;
         bool setLocation(const double latitude, const double longitude) const;
 
     private:
