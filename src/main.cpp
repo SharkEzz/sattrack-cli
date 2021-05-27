@@ -25,7 +25,7 @@ int main()
 
     SatelliteUtils utils;
 
-    std::cout << utils.isVisible(&tles.at(1), &location, 5) << std::endl;
+    manager.updateAll();
     
     return EXIT_SUCCESS;
 }

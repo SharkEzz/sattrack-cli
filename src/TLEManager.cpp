@@ -2,11 +2,29 @@
 
 #include <map>
 
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+{
+    ((std::string*)userp)->assign((char*)contents);
+    return size * nmemb;
+}
+
 namespace sattrack
 {
     TLEManager::TLEManager(Database* db)
     {
         this->db = db;
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+        this->curl = curl_easy_init();
+        if(!this->curl)
+            std::__throw_logic_error("CURL init error");
+        curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &this->readBuffer);
+    }
+
+    TLEManager::~TLEManager()
+    {
+        curl_easy_cleanup(this->curl);
+        curl_global_cleanup();
     }
 
     std::vector<Tle> TLEManager::getFromDB() const
@@ -27,12 +45,44 @@ namespace sattrack
         return Tle(name, line1, line2);
     }
 
-    bool TLEManager::updateTle(const char* currentName, const char* newName, const char* line1, const char* line2) const
+    bool TLEManager::updateTle(std::string currentName, std::string newName, std::string line1, std::string line2) const
     {
-        std::string query = "UPDATE tle SET name='" + std::string(newName) + "', line1='" + std::string(line1) + "', line2='" + std::string(line2) + "' WHERE name='" + std::string(currentName) + "';";
+        std::string query = "UPDATE tle SET name='" + newName + "', line1='" + line1 + "', line2='" + line2 + "' WHERE name='" + currentName + "';";
 
         bool ret = this->db->exec(query.c_str());
 
         return ret;
+    }
+
+    void TLEManager::updateAll() const
+    {
+        std::vector<Tle> tles = this->getFromDB();
+        CURLcode res;
+        
+        for (auto &&tle : tles)
+        {
+            int catnr = tle.NoradNumber();
+            std::string url = "https://celestrak.com/NORAD/elements/gp.php?CATNR=" + std::to_string(catnr) + "&FORMAT=TLE";
+
+            curl_easy_setopt(this->curl, CURLOPT_URL, url.c_str());
+            res = curl_easy_perform(this->curl);
+            if(res != CURLE_OK)
+                std::__throw_logic_error("curl_easy_perform failed");
+
+            std::stringstream ss(this->readBuffer);
+            std::string temp;
+            std::vector<std::string> lines;
+
+            for(uint i = 0; i < 3; i++)
+            {
+                std::getline(ss, temp, '\n');
+                temp.pop_back(); // Remove \n
+
+                lines.push_back(temp);
+            }
+            
+            this->updateTle(tle.Name(), lines.at(0), lines.at(1), lines.at(2));
+        }
+        
     }
 } // namespace sattrack
