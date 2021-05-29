@@ -25,7 +25,21 @@ int main()
 
     SatelliteUtils utils;
 
-    manager.updateAll();
+    std::vector<Tle> visibleSatellites = utils.getVisibleSatellites(tles, &location, 5);
+
+    std::cout << "Visible satellites :\n\n";
+
+    for (size_t i = 0; i < visibleSatellites.size(); i++)
+    {
+        std::cout << i << ". " << visibleSatellites.at(i).Name() << " - Elevation: " << utils.getSatelliteInfos(&visibleSatellites.at(i), &location).getElevation() << '\n';
+    }
+
+    std::string choiceStr;
+
+    std::cout << "\nChoice: ";
+    std::cin >> choiceStr;
+    int choice = std::stoi(choiceStr); // Selected satellite number
+    Tle trackedSatellite = visibleSatellites.at(choice); // Selected satellite
     
     return EXIT_SUCCESS;
 }

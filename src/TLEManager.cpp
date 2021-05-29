@@ -1,5 +1,6 @@
 #include "TLEManager.hpp"
 
+#include <spdlog/spdlog.h>
 #include <map>
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -56,11 +57,13 @@ namespace sattrack
 
     void TLEManager::updateAll() const
     {
+        spdlog::info("Starting TLE updater...");
         std::vector<Tle> tles = this->getFromDB();
         CURLcode res;
         
         for (auto &&tle : tles)
         {
+            spdlog::info("Updating {}", tle.Name());
             int catnr = tle.NoradNumber();
             std::string url = "https://celestrak.com/NORAD/elements/gp.php?CATNR=" + std::to_string(catnr) + "&FORMAT=TLE";
 
